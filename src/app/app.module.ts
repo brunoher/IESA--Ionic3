@@ -11,11 +11,13 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AlertProvider } from '../providers/alert/alert';
+import { TictactoePage } from '../pages/tictactoe/tictactoe';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
+    TictactoePage,
     TabsPage
   ],
   imports: [
@@ -27,6 +29,7 @@ import { AlertProvider } from '../providers/alert/alert';
   entryComponents: [
     MyApp,
     HomePage,
+    TictactoePage,
     TabsPage
   ],
   providers: [

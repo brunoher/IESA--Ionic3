@@ -1,65 +1,13 @@
 <ion-header>
   <ion-navbar>
-    <ion-title text-center>Tic Tac Toe</ion-title>
+    <ion-title text-center>Accueil</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding id="home-content">
-  <div class="tictactoe-grid">
+  <ion-grid class="home-grid">
     
-    <ion-row id="tictactoe-line-1">
-      <ion-col>
-        <span *ngIf= "items[0].value">{{ items[0].value }}</span>
-        <button id="0" class="play-btn" (click)="playSquare($event)"></button>
-      </ion-col>
-      
-      <ion-col class="middle-col">
-        <span *ngIf= "items[1].value">{{ items[1].value }}</span>
-        <button id="1" class="play-btn" (click)="playSquare($event)"></button>
-      </ion-col>
-      
-      <ion-col>
-        <span *ngIf= "items[2].value">{{ items[2].value }}</span>
-        <button id="2" class="play-btn" (click)="playSquare($event)"></button>
-      </ion-col>
-    </ion-row>
-    
-    
-    <ion-row id="tictactoe-line-2">
-      <ion-col>
-        <span *ngIf= "items[3].value">{{ items[3].value }}</span>
-        <button id="3" class="play-btn" (click)="playSquare($event)"></button>
-      </ion-col>
-      
-      <ion-col class="middle-col">
-        <span *ngIf= "items[4].value">{{ items[4].value }}</span>
-        <button id="4" class="play-btn" (click)="playSquare($event)"></button>
-      </ion-col>
-      
-      <ion-col>
-        <span *ngIf= "items[5].value">{{ items[5].value }}</span>
-        <button id="5" class="play-btn" (click)="playSquare($event)"></button>
-      </ion-col>
-    </ion-row>
-    
-    
-    <ion-row id="tictactoe-line-3">
-      <ion-col>
-        <span *ngIf= "items[6].value">{{ items[6].value }}</span>
-        <button id="6" class="play-btn" (click)="playSquare($event)"></button>
-      </ion-col>
-      
-      <ion-col class="middle-col">
-        <span *ngIf= "items[7].value">{{ items[7].value }}</span>
-        <button id="7" class="play-btn" (click)="playSquare($event)"></button>
-      </ion-col>
-      
-      <ion-col>
-        <span *ngIf= "items[8].value">{{ items[8].value }}</span>
-        <button id="8" class="play-btn" (click)="playSquare($event)"></button>
-      </ion-col>
-    </ion-row>
-  </div>
+  </ion-grid>
 </ion-content>
 
 
