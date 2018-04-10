@@ -1,0 +1,46 @@
+page-home {
+    .tictactoe-grid {
+        margin-top: 40%;
+        position: relative;
+        width: 280px;
+        margin-left: calc(50% - 140px);
+       
+    }
+    
+    .tictactoe-grid ion-row {
+        background-color: rgb(210, 221, 221);
+        height: 93px;
+    }
+    
+    .tictactoe-grid ion-row ion-col {
+        position: relative;
+        line-height: 170%;
+        font-size: 350%;
+    }
+
+    .tictactoe-grid ion-row ion-col span {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        text-align: center;
+    }
+    
+    #tictactoe-line-2 {
+        border-top: 2px solid black;
+        border-bottom: 2px solid black;
+    }
+    
+    .middle-col {
+        border-left: 2px solid black;
+        border-right: 2px solid black;
+    }
+    
+    .play-btn {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        opacity: 0;
+    }
+}
