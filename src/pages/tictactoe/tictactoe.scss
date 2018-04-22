@@ -1,11 +1,15 @@
 page-tictactoe {
+    ion-title {
+        font-size : 50%;
+    }
+    
     .score-col {
         text-align: center;
     }
     
     .score_buttons-grid {
         position: absolute;
-        width: 320px;
+        width: 100%;
         left: 0;
     }
     
@@ -71,5 +75,10 @@ page-tictactoe {
         left: 0;
         top: 0;
         opacity: 0;
+    }
+
+    #btn-search, #btn-invitations {
+        background-color: color($colors, mycolor4);
+        margin-top: 30px;
     }
 }

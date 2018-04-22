@@ -1,3 +1,7 @@
+.bar-button-default-ios, .bar-button-default.bar-button-ios-default, .bar-button-clear-ios-default {
+  color: white;
+}
+
 .ion-ios-add:before {
   content: "\f102";
 }
@@ -47288,77 +47292,137 @@ ion-navbar.toolbar {
   color: white;
 }
 
-page-home .score-col {
-  text-align: center;
-}
-
-page-home .score_buttons-grid {
-  position: absolute;
-  width: 320px;
-  left: 0;
-}
-
-page-home .score_button {
+page-home #btn-signup, page-home #btn-signin {
   background-color: #BBAD9F;
-  border-radius: 6px;
-  height: 40px;
-  padding: 5px;
-  text-align: left;
-  font-weight: bolder;
+}
+
+page-memory .bar-button-default-ios, page-memory .bar-button-default.bar-button-ios-default, page-memory .bar-button-clear-ios-default {
   color: white;
-  font-size: 110%;
 }
 
-page-home .tictactoe-grid {
-  margin-top: 40%;
+page-memory .back-button-text {
+  display: none;
+}
+
+page-memory .col-img {
   position: relative;
-  width: 280px;
-  margin-left: calc(50% - 140px);
+  height: 80px;
 }
 
-page-home .tictactoe-grid ion-row {
-  background-color: #BBAD9F;
-  height: 93px;
-}
-
-page-home .tictactoe-grid ion-row ion-col {
-  position: relative;
-  line-height: 170%;
-  font-size: 350%;
-}
-
-page-home .tictactoe-grid ion-row ion-col span {
+page-memory .col-img-btn, page-memory .col-img-background {
   position: absolute;
-  left: 0;
-  width: 100%;
-  text-align: center;
-}
-
-page-home .x {
-  color: #FF1E1C;
-}
-
-page-home .o {
-  color: #F1B177;
-}
-
-page-home #tictactoe-line-2 {
-  border-top: 2px solid white;
-  border-bottom: 2px solid white;
-}
-
-page-home .middle-col {
-  border-left: 2px solid white;
-  border-right: 2px solid white;
-}
-
-page-home .play-btn {
-  position: absolute;
-  width: 100%;
-  height: 100%;
   left: 0;
   top: 0;
-  opacity: 0;
+  width: 100%;
+}
+
+page-memory .col-img-background {
+  height: 100%;
+}
+
+page-memory .col-img-btn {
+  height: 80px;
+}
+
+page-memory .img {
+  position: relative;
+  display: block;
+  /*for the img inside your div */
+  z-index: 1;
+  min-height: 75px;
+}
+
+page-memory .col-img-background, page-memory .img-not-visible {
+  text-align: center;
+  line-height: 350%;
+  font-size: 160%;
+  font-weight: bolder;
+  color: #ECC12C;
+  background-color: #BBAD9F;
+  border: 2px solid white;
+}
+
+page-memory #btn-addCards {
+  background-color: #F1B177;
+}
+
+page-memory #test-memoryCards-ctnr {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  position: absolute;
+  width: 99%;
+  left: 0;
+}
+
+page-memory .test-card {
+  position: relative;
+  width: 24%;
+  margin-left: 1%;
+  min-height: 85px;
+}
+
+page-memory .test-img {
+  position: relative;
+  display: block;
+  /*for the img inside your div */
+  min-height: 80px;
+}
+
+page-memory .img-not-visible {
+  width: 100%;
+  min-height: 85px;
+}
+
+page-memory p {
+  position: absolute;
+  text-align: center;
+  bottom: -15px;
+}
+
+page-memory-create .back-button {
+  color: white;
+}
+
+page-memory-create .col-img {
+  position: relative;
+  height: 80px;
+}
+
+page-memory-create .col-img-btn, page-memory-create .col-img-background {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+page-memory-create .img {
+  position: relative;
+  margin-top: -70px;
+  display: block;
+  /*for the img inside your div */
+  max-height: 77px;
+  z-index: 1;
+}
+
+page-memory-create .col-img-background {
+  text-align: center;
+  line-height: 250%;
+  background-color: #BBAD9F;
+  border: 2px solid white;
+}
+
+page-memory-create #btn-addCards {
+  background-color: #F1B177;
+}
+
+page-tictactoe ion-title {
+  font-size: 50%;
 }
 
 page-tictactoe .score-col {
@@ -47367,7 +47431,7 @@ page-tictactoe .score-col {
 
 page-tictactoe .score_buttons-grid {
   position: absolute;
-  width: 320px;
+  width: 100%;
   left: 0;
 }
 
@@ -47432,4 +47496,9 @@ page-tictactoe .play-btn {
   left: 0;
   top: 0;
   opacity: 0;
+}
+
+page-tictactoe #btn-search, page-tictactoe #btn-invitations {
+  background-color: #BBAD9F;
+  margin-top: 30px;
 }

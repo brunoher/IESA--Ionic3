@@ -29,11 +29,13 @@ $tabs-tab-color-active : white;
 
 $tabs-ios-tab-color-inactive : white;
 
+$toolbar-ios-title-text-align: center;
+
+.bar-button-default-ios, .bar-button-default.bar-button-ios-default, .bar-button-clear-ios-default {
+  color: white;
+}
+
 // $background-color : color($colors, danger); // background-color de tous les content
-
-// $content-ios-outer-background : color($colors, danger); // pas trouvé ce que c'était
-
-// $outer-content-md-background-color : color($colors, light); // pas trouvé ce que c'était
 
 @import "ionic.theme.default";
 @import "ionic.ionicons";
