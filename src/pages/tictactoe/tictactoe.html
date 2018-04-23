@@ -1,6 +1,12 @@
 <ion-header>
     <ion-navbar>
       <ion-title text-center>Tic Tac Toe {{ user.alias }}</ion-title>
+
+      <ion-buttons end>
+        <button ion-button icon-only (click)="presentActionSheet()">
+          <ion-icon name="menu"></ion-icon>
+        </button>
+      </ion-buttons>
     </ion-navbar>
   </ion-header>
   
@@ -85,8 +91,5 @@
         </ion-col>
       </ion-row>
     </div>
-
-    <button id="btn-invitations" ion-button block (click)="checkForInvitationsRecieved()">Invitations reçues</button>
-    <button id="btn-search" ion-button block (click)="searchTictactoePlayers()">Trouver un adversaire</button>
-    <div *ngFor="let invitation of invitationsRecieved"></div>
+    <button *ngIf="currentGame" (click)="cancelGame()">Annuler</button>
   </ion-content>

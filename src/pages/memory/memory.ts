@@ -1,8 +1,7 @@
 /*import { Models } from '../../models/models'*/
 
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { ActionSheetController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ActionSheetController } from 'ionic-angular';
 import { AlertProvider } from '../../providers/alert.provider';
 
 

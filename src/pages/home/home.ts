@@ -21,6 +21,7 @@ export class HomePage {
   ) {}
 
   password = ""
+  
   signIn() {
     this.loginService.signIn(this.user.email, this.password)
   }
@@ -32,7 +33,7 @@ export class HomePage {
   ionViewDidLoad(){
     this.storage.get('user').then(user => {
       if (user) {
-        this.user.init(user.id, user.alias, user.email);
+        this.user.init(user.id, user.alias, user.email, user.ttt_canInvite, user.ttt_invitationsRecieved);
       }
     })
   }

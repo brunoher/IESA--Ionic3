@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, ActionSheetController } from 'ionic-angular';
 import { AngularFireDatabase } from 'angularfire2/database';
 
 import { AlertProvider } from '../../providers/alert.provider'
@@ -23,21 +23,33 @@ export class TictactoePage {
 	public user: User,
 	private models : Models,
 	private db : AngularFireDatabase,
-	private modal : ModalController
+	private modal : ModalController,
+	private actionSheetCtrl : ActionSheetController
   ) {
 
   }
 	
 	ionViewDidEnter() {
-
 		// dès que l'on ouvre la vue tictactoe, on 'écoute' les changements en base de données : ... 
 		const userRef = "users/" + this.user.id
 
 		// ... de la possibilité d'inviter un autre joueur
-		this.db.object(userRef+'/ttt_canInvite').valueChanges().subscribe(snapshot => {
-			let canInvite = <any>{}
-			canInvite = snapshot
-			this.user.ttt_canInvite = canInvite
+		this.db.object(userRef+'/ttt_invitationSent').valueChanges().subscribe(invitationSent => {
+			this.user.ttt_invitationSent = <any>{}
+
+			// si aucune invitation envoyée en attente : 'ttt_invitationSent' : false dans firebase
+			this.user.ttt_invitationSent = invitationSent
+		})
+
+		// ... de l'état de notre partie en cours (si aucune partie en cours, le noeud 'ttt_currentGame' = false)
+		this.db.object(userRef+'/ttt_currentGame').valueChanges().subscribe(currentGame => {
+			this.currentGame = currentGame
+			// si une partie est en cours, on suit son statut dans firebase
+			if (this.currentGame) {
+				this.startVersusGame(this.currentGame.against, this.currentGame.id)
+
+			}
+
 		})
 
 		//  ... des invitations reçues
@@ -58,20 +70,51 @@ export class TictactoePage {
 	ionViewWillLeave() {
 		// avant de quitter la vue, on désactive les listeners
 		const userRef = "users/" + this.user.id
-		this.db.database.ref(userRef+'/ttt_canInvite').off()
+		this.db.database.ref(userRef+'/ttt_invitationSent').off()
 		this.db.database.ref(userRef+'/ttt_invitationsRecieved').off()
-	}  
+		if (this.currentGame)  {
+			this.db.database.ref('tictactoe/games/'+this.currentGame.id+'/state').off()
+		}
+	}
+		
+	presentActionSheet() {	
+		let actionSheet = this.actionSheetCtrl.create({
+			title: 'Choisir',
+			buttons: [
+			{
+				// partie contre l' I.A.
+				text: 'Entrainement solo',
+				handler: () => {
+				this.alertProvider.selectSymbol(this)
+				},
+			},{
+				text: 'Trouver un adversaire',
+				handler: () => {
+				this.searchTictactoePlayers()
+				},
+			},{
+				// entre parenthèses : le nombre d'invitations reçues
+				text: 'Invitations reçues ('+ this.user.ttt_invitationsRecieved.length +')',
+				handler: () => {
+				this.checkForInvitationsRecieved()
+				},
+			}
+			]
+		});
+		actionSheet.present();	  
+	}
  
- 	checkForInvitationsRecieved(){
+ 	checkForInvitationsRecieved() {
 		let data = {invitations: this.user.ttt_invitationsRecieved, uid: this.user.id}
 		let modal = this.modal.create(InvitationsPage, data)
 		modal.present()
-		modal.onDidDismiss(invitationAccepted=>{
+		/*modal.onDidDismiss(invitationAccepted => {
 			if (invitationAccepted) {
-				const game = 'tictactoe/games/'+invitationAccepted.uid
+				const game = 'tictactoe/games/'+invitationAccepted.id
 				this.listenGameState(game)
 			}
-		})
+		})*/
+
 	}
 
 	searchTictactoePlayers(){
@@ -86,86 +129,124 @@ export class TictactoePage {
 	}
  
  	 sendInvitationForNewGame(otherPlayer) {
-		// on ne peut envoyer qu'une seule invitation à la fois : on vérifie donc que 'ttt_canInvite' est bien à true
-		if (this.user.ttt_canInvite) {
+		// on ne peut envoyer qu'une seule invitation à la fois : on vérifie donc que 'ttt_invitationSent' est à false
+		if (!this.user.ttt_invitationSent) {
 			// on crée une nouvelle id unique de partie composée de 12 caratères aléatoires
-			this.gameRef = this.models.createRandomKey(12)
+			const gameRef = this.models.createRandomKey(12)
 			// une fois l'invitation envoyée, on ne peut plus créer de nouvelle partie puisque notre 'gameRef'
 			// ne peut prendre qu'une seule valeur à la fois
 			const ref = "users/" + otherPlayer + '/ttt_invitationsRecieved'
 			// on met à jour le noeud firebase de l'utilisateur qui reçoit l'invitation
 			// on lui ajoute dans ses invitations reçus, une nouvelle invitation
 			this.db.object(ref).update({
-				[this.gameRef] : {
+				[gameRef] : {
 					sender : {
 						uid: this.user.id,
 						alias: this.user.alias,
 					},
-					accepted : false,
-					id: this.gameRef,
+					id: gameRef,
 				}
 			})
-			// on se positionne dans le statut de l'invitation qu'on a envoyée à l'autre joueur
-			// dès que ce status passe à 'true', on peut démarer la partie, on retire également ce listener
-			this.db.object(ref+'/'+this.gameRef+'/accepted').valueChanges().subscribe(accepted => {     
-				if (accepted) {
-					this.startVersusGame(otherPlayer)
-					this.db.database.ref(ref+'/'+this.gameRef+'/accepted').off()
-				}
-			})
+			// on modifie le noeud 'invitationSent' de l'utilisateur qui envoie l'invitation
+			const invitationSentRef = 'users/'+this.user.id+'/ttt_invitationSent',
+				  invitationsSentObj = this.db.object(invitationSentRef)
 			
-			// Le joueur ne peut plus envoyer de nouvelle invitation tant que celle-ci est en attente
-			const userRef = "users/" + this.user.id
-			this.db.object(userRef).update({
-				ttt_canInvite :  false
+				  invitationsSentObj.set({
+				[gameRef] : {
+					id: gameRef, 
+					accepted: false,
+				}
 			})
+			this.gameRef = gameRef
 		}
 	}
 	
-	startVersusGame(otherPlayer) {
+	startVersusGame(otherPlayer, gameRef) {
 		
-		const game   = 'tictactoe/games',
-			  player = Math.random() < 0.5 ? this.user.id : otherPlayer
-		// on choisi aléatoirement qui pourra commencer à jouer
-			  
-		// on crée une nouvel objet de partie dans le noeud games du noeud tictactoe dans la firebase
+		const game   = 'tictactoe/games/',
+				// on choisit de façon aléatoire  qui pourra commencer à jouer
+			  player = Math.random() < 0.5 ? this.user.id : otherPlayer,
+			  // on choisit de façon aléatoire le symbole de chacun
+			  otherPlayerSymbol = Math.random() < 0.5 ? 'X' : 'O',
+			  uid = this.user.id
+
+		this.player.is = otherPlayerSymbol === 'X' ? 'O' : 'X' 
+  
+		// on crée un nouvel objet de partie dans le noeud games du noeud tictactoe 
 		this.db.object(game).update({
-			[this.gameRef] : {
-				player1 : this.user.id,
-				player2 : otherPlayer,
+			[gameRef] : {
+				players : {
+					[uid] : {
+						id: uid,
+						is: this.player.is,
+					},	
+					[otherPlayer] : {
+						id: otherPlayer,
+						is: otherPlayerSymbol,
+					}	
+				},	
 				state : {
 					// par exemple si la première case en haut à gauche est jouée avec une croix, et que la case du milieu est un rond
 					// le nouveau currentState sera : "X---O----"
 					currentState: "---------",
 					// "playing" correspond au joueur qui peut jouer le prochain coup
-					playing: player
+					playing: player,
+					moves: 0,
+					scores : {
+						[uid] : 0,
+						[otherPlayer] : 0,
+					}	
 				}
 			}
 		})
-		
-		const gameRef = game+'/'+this.gameRef
-		this.listenGameState (gameRef)
+
+		const currentGame = {id: gameRef, against: otherPlayer}
+		this.listenGameState (currentGame)
 	}
 
-	listenGameState (gameRef){
-		const gameState = gameRef + '/state'
+	listenGameState (currentGame) {
+		const gameStateRef = 'tictactoe/games/'+ currentGame.id
+		this.db.database.ref(gameStateRef).once('value', res => {
+			let playerSymbol = <any>{}
+			console.log(res.val())
+			playerSymbol = res.val().players[this.user.id].is
+			this.player.is = playerSymbol
+		})
 		// on met un listenner sur l'état d'avancement de la partie
-		this.db.object(gameState).valueChanges().subscribe(newState => {
+		this.db.object(gameStateRef+'/state').valueChanges().subscribe(res => {
 			// dès qu'un nouveau coup est joué, que l'état est donc modifié...
-			let newItems = <any>{}
-			newItems = newState
-			newItems.currentState
+			let gameState = <any>{}
+			gameState = res
+			gameState.currentState
 			.split('')
-			.map((value, index) => this.items[index] = value !== '-' ? {value: value} : "")
-			// ... on retranscrit le state en tableau et l'on assigne ces nouvelles valeurs à notre tableau de cases qui est rendu à l'écran
-			this.canPlay = newItems.playing === this.user.id ? true : false
+			.map( (value, index) => 
+				this.items[index] =  value !== '-' ? {value: value} : {value: ""} 
+			)// ... on retranscrit le state en tableau et on assigne ces nouvelles valeurs à notre tableau de cases qui est rendu à l'écran
+			
 			// selon le joueur qui peut jouer le prochain coup, on autorise ou non le joueur à jouer
+			this.canPlay = gameState.playing === this.user.id ? true : false
+			
+			// le nombres de cases remplies est updaté également : au bout de 9 tours ou si un des 2 joueurs gagne, la partie est remise à zéro
+			if (this.hasWon() || this.moves === 10) {
+				if (gameState.playing === this.user.id && this.moves < 10) {
+					gameState.scores[currentGame.against] ++
+					this.alertProvider.presentAlert("Défaite ;(", "Vous avez perdu...", "Ok")
+				} else if (this.moves < 10) {
+					gameState.scores[this.user.id] ++
+					this.alertProvider.presentAlert("Victoire :D", "Vous avez gagné !!", "Ok")
+				}
+				
+				this.moves = 0
+				gameState.moves = this.moves
+				gameState.currentState = '---------'
+				this.db.object(gameStateRef).update(gameState)	
+			} 
 		})
 	}
  
-	game = <any>{}
-	gameRef = ""
 	invitationsRecieved = []
+	currentGame = <any>{}
+	gameRef = ""
 	items  	=  [{},{},{},{},{},{},{},{},{}]
 	player 	=  {is: "", score: 0}
 	cpu    	=  {is: "", score: 0}
@@ -193,8 +274,9 @@ export class TictactoePage {
 		}
 
 		this.items = output
-		if ( !this.canPlay ) {
-			this.ai()
+		
+		if ( !this.canPlay && !this.currentGame) {
+			this.ai()	
 		}
 	}
 	
@@ -207,13 +289,30 @@ export class TictactoePage {
 		if (this.canPlay) {
 			let items = <any>{}
 			items = this.items
+			// si la case jouée n'a encore aucun symbole
 			if(!items[event.target.id].value) {
-				
-				this.canPlay = false
 				items[event.target.id].value = this.player.is
-				this.items = items
-				this.runGame(this.player.is)	
-			
+				// si on est en train de jouer avec un adversaire à distance 
+				if (this.currentGame) {
+					let currentState = ""
+					items.map((item, index) => 
+					currentState += item.value !== "" ? item.value : "-"
+					)// on réinitialise l'état de la partie  '---------' avec les bonnes valeurs
+					// toutes les cases encore non jouées sont sybolisées par '-', les autres par O ou X
+					
+					this.db.object('tictactoe/games/' + this.currentGame.id + '/state').update({
+						// on actualise la base de donnée à chaque nouveau coup joué
+						currentState: currentState,
+						// "playing" correspond au joueur qui peut jouer le prochain coup
+						playing: this.currentGame.against,
+						moves : this.moves + 1,
+					})
+				} else {
+					// si on est en traind e jouer contre l' I.A.	
+					this.canPlay = false
+					this.items = items
+					this.runGame(this.player.is)
+				}	
 			}
 		}
 	}
@@ -232,28 +331,34 @@ export class TictactoePage {
 
 	runGame(playing){
 		this.moves++
-		
 		if (this.hasWon()) {
-		
+
 			this.alertProvider.confirmRestart("Fin de partie !", playing, this)
 			
 			if (playing === this.player.is) {	
-				//this.canPlay = true
 				this.player.score ++
 			} else {
 				this.cpu.score ++
 			}
 
-		} else if (this.moves < 9){
-		
-			if (playing === this.player.is) this.ai()
-		
-		} else {
-		
+		} else if (this.moves < 9) {
+			
+			if ( playing === this.player.is ) {
+				this.ai()
+			}
+	
+		} else  {
+			
 			this.initItems()
-			//if (playing === this.player.is) this.canPlay = true
-		
+			
 		}
+	}
+
+	cancelGame() {
+		console.log("hey")
+		this.canPlay = true
+		this.initItems()
+		this.db.object('users/'+this.user.id+'/ttt_currentGame').set(false)
 	}
 
 	restart() {
@@ -261,7 +366,6 @@ export class TictactoePage {
 	}
 
 	ai() {		
-		//var that  = this
 		setTimeout( () => {
 			let i  
 			let items = <any>{}

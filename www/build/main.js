@@ -6,7 +6,7 @@ webpackJsonp([6],{
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MemoryProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_models__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_models__ = __webpack_require__(72);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__globals__ = __webpack_require__(359);
 /*
 import { AlertProvider } from './alert.provider';
@@ -200,14 +200,76 @@ var MemoryProvider = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return InvitationsPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angularfire2_database__ = __webpack_require__(85);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var InvitationsPage = (function () {
+    function InvitationsPage(navCtrl, navParams, viewCtrl, db) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.viewCtrl = viewCtrl;
+        this.db = db;
+        /*ionViewDidEnter() {
+          console.log(this.invitations)
+        }*/
+        this.invitations = this.navParams.get('invitations');
+        this.uid = this.navParams.get('uid');
+    }
+    InvitationsPage.prototype.goBack = function () {
+        this.viewCtrl.dismiss();
+    };
+    InvitationsPage.prototype.accept = function (invitation) {
+        // l'objet invitation correspond à un élément du tableau invitations reçues
+        // on se positionne dans firebase, au niveau du 'currentGame' des 2 utilisateurs qu'on update avec la référence de la partie dans 'tictactoe/games/'
+        var otherPlayerId = invitation.sender.uid, user1Ref = 'users/' + otherPlayerId, user2Ref = 'users/' + this.uid;
+        // la seule chose qui change pour chaque joueur, c'est l'id de l'opposant      
+        var update = { ttt_currentGame: { id: invitation.id, against: this.uid, } };
+        this.db.object(user1Ref).update(update);
+        update.ttt_currentGame.against = otherPlayerId;
+        this.db.object(user2Ref).update(update);
+        this.viewCtrl.dismiss();
+    };
+    InvitationsPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-invitations',template:/*ion-inline-start:"/Users/valentinelarit/Desktop/IESA/Ionic-Appli/IESA-Ionic3-MySmallGames/IESA--Ionic3/src/pages/invitations/invitations.html"*/'<ion-header>\n\n  <ion-navbar>\n    <ion-title text-center>Invitations</ion-title>\n    <ion-buttons left>\n      <button ion-button icon-only (click)="goBack()">\n        X\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n  <ion-grid>\n    <ion-row *ngFor="let invitation of invitations">\n      <ion-col>\n        Pseudo : {{ invitation.sender.alias}}\n      </ion-col>\n      <ion-col>\n        <button class="button block" (click)="accept(invitation)">Accepter</button>\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n'/*ion-inline-end:"/Users/valentinelarit/Desktop/IESA/Ionic-Appli/IESA-Ionic3-MySmallGames/IESA--Ionic3/src/pages/invitations/invitations.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* ViewController */],
+            __WEBPACK_IMPORTED_MODULE_2_angularfire2_database__["a" /* AngularFireDatabase */]])
+    ], InvitationsPage);
+    return InvitationsPage;
+}());
+
+//# sourceMappingURL=invitations.js.map
+
+/***/ }),
+
+/***/ 224:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MemoryCreatePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_camera_provider__ = __webpack_require__(284);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_camera_provider__ = __webpack_require__(334);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_alert_provider__ = __webpack_require__(92);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_memory_provider__ = __webpack_require__(186);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_user__ = __webpack_require__(74);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__models_models__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__models_models__ = __webpack_require__(72);
 /* import { ViewCache } from '@firebase/database/dist/esm/src/core/view/ViewCache'; */
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -351,72 +413,17 @@ var MemoryCreatePage = (function () {
 
 /***/ }),
 
-/***/ 224:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return InvitationsPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angularfire2_database__ = __webpack_require__(87);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-var InvitationsPage = (function () {
-    function InvitationsPage(navCtrl, navParams, viewCtrl, db) {
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        this.viewCtrl = viewCtrl;
-        this.db = db;
-        this.invitations = this.navParams.get('invitations');
-        this.uid = this.navParams.get('uid');
-    }
-    InvitationsPage.prototype.goBack = function () {
-        this.viewCtrl.dismiss();
-    };
-    InvitationsPage.prototype.accept = function (invitation) {
-        var accepted = 'users/' + this.uid + '/ttt_invitationsRecieved/' + invitation.uid;
-        this.db.object(accepted).update({
-            accepted: true
-        });
-        this.viewCtrl.dismiss(invitation);
-    };
-    InvitationsPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-invitations',template:/*ion-inline-start:"/Users/valentinelarit/Desktop/IESA/Ionic-Appli/IESA-Ionic3-MySmallGames/IESA--Ionic3/src/pages/invitations/invitations.html"*/'<ion-header>\n\n  <ion-navbar>\n    <ion-title text-center>Invitations</ion-title>\n    <ion-buttons left>\n      <button ion-button icon-only (click)="goBack()">\n        X\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n  <ion-grid>\n    <ion-row *ngFor="let invitation of invitations">\n      <ion-col>\n        Pseudo : {{ invitation.sender.alias}}\n      </ion-col>\n      <ion-col>\n        <button class="button block" (click)="accept(invitation)">Accepter</button>\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n</ion-content>\n'/*ion-inline-end:"/Users/valentinelarit/Desktop/IESA/Ionic-Appli/IESA-Ionic3-MySmallGames/IESA--Ionic3/src/pages/invitations/invitations.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* ViewController */],
-            __WEBPACK_IMPORTED_MODULE_2_angularfire2_database__["a" /* AngularFireDatabase */]])
-    ], InvitationsPage);
-    return InvitationsPage;
-}());
-
-//# sourceMappingURL=invitations.js.map
-
-/***/ }),
-
 /***/ 225:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MemoryPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(38);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_alert_provider__ = __webpack_require__(92);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_user__ = __webpack_require__(74);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_memory_provider__ = __webpack_require__(186);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__memory_create_memory_create__ = __webpack_require__(223);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__memory_create_memory_create__ = __webpack_require__(224);
 /*import { Models } from '../../models/models'*/
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -427,7 +434,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
 
 
 
@@ -570,8 +576,8 @@ var MemoryPage = (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SearchTictactoePlayersPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_models__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_models__ = __webpack_require__(72);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -663,10 +669,9 @@ var SearchTictactoePlayersPage = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-search-tictactoe-players',template:/*ion-inline-start:"/Users/valentinelarit/Desktop/IESA/Ionic-Appli/IESA-Ionic3-MySmallGames/IESA--Ionic3/src/pages/search-tictactoe-players/search-tictactoe-players.html"*/'\n<ion-header>\n\n  <ion-navbar>\n    <ion-title text-center>SearchTictactoePlayers</ion-title>\n    <ion-buttons left>\n      <button ion-button icon-only (click)="goBack()">\n        X\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n  <ion-grid>\n    <ion-row *ngFor="let player of players">\n      <ion-col>\n        Nom : {{ player.alias }}\n      </ion-col>\n      <ion-col>\n        <button block (click)="invite(player)">>Inviter</button>\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n\n</ion-content>\n'/*ion-inline-end:"/Users/valentinelarit/Desktop/IESA/Ionic-Appli/IESA-Ionic3-MySmallGames/IESA--Ionic3/src/pages/search-tictactoe-players/search-tictactoe-players.html"*/,
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* ViewController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* ViewController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__models_models__["a" /* Models */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__models_models__["a" /* Models */]) === "function" && _d || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* ViewController */], __WEBPACK_IMPORTED_MODULE_2__models_models__["a" /* Models */]])
     ], SearchTictactoePlayersPage);
     return SearchTictactoePlayersPage;
-    var _a, _b, _c, _d;
 }());
 
 //# sourceMappingURL=search-tictactoe-players.js.map
@@ -679,12 +684,12 @@ var SearchTictactoePlayersPage = (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TictactoePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angularfire2_database__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angularfire2_database__ = __webpack_require__(85);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_alert_provider__ = __webpack_require__(92);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_user__ = __webpack_require__(74);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__models_models__ = __webpack_require__(71);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__invitations_invitations__ = __webpack_require__(224);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__models_models__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__invitations_invitations__ = __webpack_require__(223);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__search_tictactoe_players_search_tictactoe_players__ = __webpack_require__(226);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -704,7 +709,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var TictactoePage = (function () {
-    function TictactoePage(navCtrl, navParams, alertProvider, user, models, db, modal) {
+    function TictactoePage(navCtrl, navParams, alertProvider, user, models, db, modal, actionSheetCtrl) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.alertProvider = alertProvider;
@@ -712,9 +717,10 @@ var TictactoePage = (function () {
         this.models = models;
         this.db = db;
         this.modal = modal;
-        this.game = {};
-        this.gameRef = "";
+        this.actionSheetCtrl = actionSheetCtrl;
         this.invitationsRecieved = [];
+        this.currentGame = {};
+        this.gameRef = "";
         this.items = [{}, {}, {}, {}, {}, {}, {}, {}, {}];
         this.player = { is: "", score: 0 };
         this.cpu = { is: "", score: 0 };
@@ -736,10 +742,18 @@ var TictactoePage = (function () {
         // dès que l'on ouvre la vue tictactoe, on 'écoute' les changements en base de données : ... 
         var userRef = "users/" + this.user.id;
         // ... de la possibilité d'inviter un autre joueur
-        this.db.object(userRef + '/ttt_canInvite').valueChanges().subscribe(function (snapshot) {
-            var canInvite = {};
-            canInvite = snapshot;
-            _this.user.ttt_canInvite = canInvite;
+        this.db.object(userRef + '/ttt_invitationSent').valueChanges().subscribe(function (invitationSent) {
+            _this.user.ttt_invitationSent = {};
+            // si aucune invitation envoyée en attente : 'ttt_invitationSent' : false dans firebase
+            _this.user.ttt_invitationSent = invitationSent;
+        });
+        // ... de l'état de notre partie en cours (si aucune partie en cours, le noeud 'ttt_currentGame' = false)
+        this.db.object(userRef + '/ttt_currentGame').valueChanges().subscribe(function (currentGame) {
+            _this.currentGame = currentGame;
+            // si une partie est en cours, on suit son statut dans firebase
+            if (_this.currentGame) {
+                _this.startVersusGame(_this.currentGame.against, _this.currentGame.id);
+            }
         });
         //  ... des invitations reçues
         this.db.object(userRef + '/ttt_invitationsRecieved').valueChanges().subscribe(function (snapshot) {
@@ -756,20 +770,49 @@ var TictactoePage = (function () {
     TictactoePage.prototype.ionViewWillLeave = function () {
         // avant de quitter la vue, on désactive les listeners
         var userRef = "users/" + this.user.id;
-        this.db.database.ref(userRef + '/ttt_canInvite').off();
+        this.db.database.ref(userRef + '/ttt_invitationSent').off();
         this.db.database.ref(userRef + '/ttt_invitationsRecieved').off();
+        if (this.currentGame) {
+            this.db.database.ref('tictactoe/games/' + this.currentGame.id + '/state').off();
+        }
+    };
+    TictactoePage.prototype.presentActionSheet = function () {
+        var _this = this;
+        var actionSheet = this.actionSheetCtrl.create({
+            title: 'Choisir',
+            buttons: [
+                {
+                    // partie contre l' I.A.
+                    text: 'Entrainement solo',
+                    handler: function () {
+                        _this.alertProvider.selectSymbol(_this);
+                    },
+                }, {
+                    text: 'Trouver un adversaire',
+                    handler: function () {
+                        _this.searchTictactoePlayers();
+                    },
+                }, {
+                    // entre parenthèses : le nombre d'invitations reçues
+                    text: 'Invitations reçues (' + this.user.ttt_invitationsRecieved.length + ')',
+                    handler: function () {
+                        _this.checkForInvitationsRecieved();
+                    },
+                }
+            ]
+        });
+        actionSheet.present();
     };
     TictactoePage.prototype.checkForInvitationsRecieved = function () {
-        var _this = this;
         var data = { invitations: this.user.ttt_invitationsRecieved, uid: this.user.id };
         var modal = this.modal.create(__WEBPACK_IMPORTED_MODULE_6__invitations_invitations__["a" /* InvitationsPage */], data);
         modal.present();
-        modal.onDidDismiss(function (invitationAccepted) {
+        /*modal.onDidDismiss(invitationAccepted => {
             if (invitationAccepted) {
-                var game = 'tictactoe/games/' + invitationAccepted.uid;
-                _this.listenGameState(game);
+                const game = 'tictactoe/games/'+invitationAccepted.id
+                this.listenGameState(game)
             }
-        });
+        })*/
     };
     TictactoePage.prototype.searchTictactoePlayers = function () {
         var _this = this;
@@ -783,77 +826,110 @@ var TictactoePage = (function () {
         });
     };
     TictactoePage.prototype.sendInvitationForNewGame = function (otherPlayer) {
-        var _this = this;
-        // on ne peut envoyer qu'une seule invitation à la fois : on vérifie donc que 'ttt_canInvite' est bien à true
-        if (this.user.ttt_canInvite) {
+        // on ne peut envoyer qu'une seule invitation à la fois : on vérifie donc que 'ttt_invitationSent' est à false
+        if (!this.user.ttt_invitationSent) {
             // on crée une nouvelle id unique de partie composée de 12 caratères aléatoires
-            this.gameRef = this.models.createRandomKey(12);
+            var gameRef = this.models.createRandomKey(12);
             // une fois l'invitation envoyée, on ne peut plus créer de nouvelle partie puisque notre 'gameRef'
             // ne peut prendre qu'une seule valeur à la fois
-            var ref_1 = "users/" + otherPlayer + '/ttt_invitationsRecieved';
+            var ref = "users/" + otherPlayer + '/ttt_invitationsRecieved';
             // on met à jour le noeud firebase de l'utilisateur qui reçoit l'invitation
             // on lui ajoute dans ses invitations reçus, une nouvelle invitation
-            this.db.object(ref_1).update((_a = {},
-                _a[this.gameRef] = {
+            this.db.object(ref).update((_a = {},
+                _a[gameRef] = {
                     sender: {
                         uid: this.user.id,
                         alias: this.user.alias,
                     },
-                    accepted: false,
-                    id: this.gameRef,
+                    id: gameRef,
                 },
                 _a));
-            // on se positionne dans le statut de l'invitation qu'on a envoyée à l'autre joueur
-            // dès que ce status passe à 'true', on peut démarer la partie, on retire également ce listener
-            this.db.object(ref_1 + '/' + this.gameRef + '/accepted').valueChanges().subscribe(function (accepted) {
-                if (accepted) {
-                    _this.startVersusGame(otherPlayer);
-                    _this.db.database.ref(ref_1 + '/' + _this.gameRef + '/accepted').off();
-                }
-            });
-            // Le joueur ne peut plus envoyer de nouvelle invitation tant que celle-ci est en attente
-            var userRef = "users/" + this.user.id;
-            this.db.object(userRef).update({
-                ttt_canInvite: false
-            });
+            // on modifie le noeud 'invitationSent' de l'utilisateur qui envoie l'invitation
+            var invitationSentRef = 'users/' + this.user.id + '/ttt_invitationSent', invitationsSentObj = this.db.object(invitationSentRef);
+            invitationsSentObj.set((_b = {},
+                _b[gameRef] = {
+                    id: gameRef,
+                    accepted: false,
+                },
+                _b));
+            this.gameRef = gameRef;
         }
-        var _a;
+        var _a, _b;
     };
-    TictactoePage.prototype.startVersusGame = function (otherPlayer) {
-        var game = 'tictactoe/games', player = Math.random() < 0.5 ? this.user.id : otherPlayer;
-        // on choisi aléatoirement qui pourra commencer à jouer
-        // on crée une nouvel objet de partie dans le noeud games du noeud tictactoe dans la firebase
+    TictactoePage.prototype.startVersusGame = function (otherPlayer, gameRef) {
+        var game = 'tictactoe/games/', 
+        // on choisit de façon aléatoire  qui pourra commencer à jouer
+        player = Math.random() < 0.5 ? this.user.id : otherPlayer, 
+        // on choisit de façon aléatoire le symbole de chacun
+        otherPlayerSymbol = Math.random() < 0.5 ? 'X' : 'O', uid = this.user.id;
+        this.player.is = otherPlayerSymbol === 'X' ? 'O' : 'X';
+        // on crée un nouvel objet de partie dans le noeud games du noeud tictactoe 
         this.db.object(game).update((_a = {},
-            _a[this.gameRef] = {
-                player1: this.user.id,
-                player2: otherPlayer,
+            _a[gameRef] = {
+                players: (_b = {},
+                    _b[uid] = {
+                        id: uid,
+                        is: this.player.is,
+                    },
+                    _b[otherPlayer] = {
+                        id: otherPlayer,
+                        is: otherPlayerSymbol,
+                    },
+                    _b),
                 state: {
                     // par exemple si la première case en haut à gauche est jouée avec une croix, et que la case du milieu est un rond
                     // le nouveau currentState sera : "X---O----"
                     currentState: "---------",
                     // "playing" correspond au joueur qui peut jouer le prochain coup
-                    playing: player
+                    playing: player,
+                    moves: 0,
+                    scores: (_c = {},
+                        _c[uid] = 0,
+                        _c[otherPlayer] = 0,
+                        _c)
                 }
             },
             _a));
-        var gameRef = game + '/' + this.gameRef;
-        this.listenGameState(gameRef);
-        var _a;
+        var currentGame = { id: gameRef, against: otherPlayer };
+        this.listenGameState(currentGame);
+        var _a, _b, _c;
     };
-    TictactoePage.prototype.listenGameState = function (gameRef) {
+    TictactoePage.prototype.listenGameState = function (currentGame) {
         var _this = this;
-        var gameState = gameRef + '/state';
+        var gameStateRef = 'tictactoe/games/' + currentGame.id;
+        this.db.database.ref(gameStateRef).once('value', function (res) {
+            var playerSymbol = {};
+            console.log(res.val());
+            playerSymbol = res.val().players[_this.user.id].is;
+            _this.player.is = playerSymbol;
+        });
         // on met un listenner sur l'état d'avancement de la partie
-        this.db.object(gameState).valueChanges().subscribe(function (newState) {
+        this.db.object(gameStateRef + '/state').valueChanges().subscribe(function (res) {
             // dès qu'un nouveau coup est joué, que l'état est donc modifié...
-            var newItems = {};
-            newItems = newState;
-            newItems.currentState
+            var gameState = {};
+            gameState = res;
+            gameState.currentState
                 .split('')
-                .map(function (value, index) { return _this.items[index] = value !== '-' ? { value: value } : ""; });
-            // ... on retranscrit le state en tableau et l'on assigne ces nouvelles valeurs à notre tableau de cases qui est rendu à l'écran
-            _this.canPlay = newItems.playing === _this.user.id ? true : false;
+                .map(function (value, index) {
+                return _this.items[index] = value !== '-' ? { value: value } : { value: "" };
+            }); // ... on retranscrit le state en tableau et on assigne ces nouvelles valeurs à notre tableau de cases qui est rendu à l'écran
             // selon le joueur qui peut jouer le prochain coup, on autorise ou non le joueur à jouer
+            _this.canPlay = gameState.playing === _this.user.id ? true : false;
+            // le nombres de cases remplies est updaté également : au bout de 9 tours ou si un des 2 joueurs gagne, la partie est remise à zéro
+            if (_this.hasWon() || _this.moves === 10) {
+                if (gameState.playing === _this.user.id && _this.moves < 10) {
+                    gameState.scores[currentGame.against]++;
+                    _this.alertProvider.presentAlert("Défaite ;(", "Vous avez perdu...", "Ok");
+                }
+                else if (_this.moves < 10) {
+                    gameState.scores[_this.user.id]++;
+                    _this.alertProvider.presentAlert("Victoire :D", "Vous avez gagné !!", "Ok");
+                }
+                _this.moves = 0;
+                gameState.moves = _this.moves;
+                gameState.currentState = '---------';
+                _this.db.object(gameStateRef).update(gameState);
+            }
         });
     };
     TictactoePage.prototype.initItems = function () {
@@ -864,7 +940,7 @@ var TictactoePage = (function () {
             i++;
         }
         this.items = output;
-        if (!this.canPlay) {
+        if (!this.canPlay && !this.currentGame) {
             this.ai();
         }
     };
@@ -876,11 +952,30 @@ var TictactoePage = (function () {
         if (this.canPlay) {
             var items = {};
             items = this.items;
+            // si la case jouée n'a encore aucun symbole
             if (!items[event.target.id].value) {
-                this.canPlay = false;
                 items[event.target.id].value = this.player.is;
-                this.items = items;
-                this.runGame(this.player.is);
+                // si on est en train de jouer avec un adversaire à distance 
+                if (this.currentGame) {
+                    var currentState_1 = "";
+                    items.map(function (item, index) {
+                        return currentState_1 += item.value !== "" ? item.value : "-";
+                    }); // on réinitialise l'état de la partie  '---------' avec les bonnes valeurs
+                    // toutes les cases encore non jouées sont sybolisées par '-', les autres par O ou X
+                    this.db.object('tictactoe/games/' + this.currentGame.id + '/state').update({
+                        // on actualise la base de donnée à chaque nouveau coup joué
+                        currentState: currentState_1,
+                        // "playing" correspond au joueur qui peut jouer le prochain coup
+                        playing: this.currentGame.against,
+                        moves: this.moves + 1,
+                    });
+                }
+                else {
+                    // si on est en traind e jouer contre l' I.A.	
+                    this.canPlay = false;
+                    this.items = items;
+                    this.runGame(this.player.is);
+                }
             }
         }
     };
@@ -900,7 +995,6 @@ var TictactoePage = (function () {
         if (this.hasWon()) {
             this.alertProvider.confirmRestart("Fin de partie !", playing, this);
             if (playing === this.player.is) {
-                //this.canPlay = true
                 this.player.score++;
             }
             else {
@@ -908,20 +1002,25 @@ var TictactoePage = (function () {
             }
         }
         else if (this.moves < 9) {
-            if (playing === this.player.is)
+            if (playing === this.player.is) {
                 this.ai();
+            }
         }
         else {
             this.initItems();
-            //if (playing === this.player.is) this.canPlay = true
         }
+    };
+    TictactoePage.prototype.cancelGame = function () {
+        console.log("hey");
+        this.canPlay = true;
+        this.initItems();
+        this.db.object('users/' + this.user.id + '/ttt_currentGame').set(false);
     };
     TictactoePage.prototype.restart = function () {
         this.initItems();
     };
     TictactoePage.prototype.ai = function () {
         var _this = this;
-        //var that  = this
         setTimeout(function () {
             var i;
             var items = {};
@@ -937,12 +1036,12 @@ var TictactoePage = (function () {
     };
     TictactoePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-tictactoe',template:/*ion-inline-start:"/Users/valentinelarit/Desktop/IESA/Ionic-Appli/IESA-Ionic3-MySmallGames/IESA--Ionic3/src/pages/tictactoe/tictactoe.html"*/'<ion-header>\n    <ion-navbar>\n      <ion-title text-center>Tic Tac Toe {{ user.alias }}</ion-title>\n    </ion-navbar>\n  </ion-header>\n  \n  <ion-content padding id="home-content">\n    <ion-grid class="score_buttons-grid">\n      <ion-row>\n        <ion-col class="score-col">\n          Score :\n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col class="score_button-col">\n          <div class="score_button">Vous: {{ player.score }}</div>\n        </ion-col>\n        <ion-col class="score_button-col">\n          <div class="score_button">Adversaire: {{ cpu.score }}</div>\n        </ion-col>\n      </ion-row>\n    </ion-grid>\n    \n    <div class="tictactoe-grid">\n      \n      <ion-row id="tictactoe-line-1">\n        <ion-col>\n          <span *ngIf= "items[0].value && items[0].value === \'X\'" class="x">{{ items[0].value }}</span>\n          <span *ngIf= "items[0].value && items[0].value === \'O\'" class="o">{{ items[0].value }}</span>\n          <button id="0" class="play-btn" (click)="playSquare($event)"></button>\n        </ion-col>\n        \n        <ion-col class="middle-col">\n            <span *ngIf= "items[1].value && items[1].value === \'X\'" class="x">{{ items[1].value }}</span>\n            <span *ngIf= "items[1].value && items[1].value === \'O\'" class="o">{{ items[1].value }}</span>\n          <button id="1" class="play-btn" (click)="playSquare($event)"></button>\n        </ion-col>\n        \n        <ion-col>\n            <span *ngIf= "items[2].value && items[2].value === \'X\'" class="x">{{ items[2].value }}</span>\n            <span *ngIf= "items[2].value && items[2].value === \'O\'" class="o">{{ items[2].value }}</span>\n          <button id="2" class="play-btn" (click)="playSquare($event)"></button>\n        </ion-col>\n      </ion-row>\n      \n      \n      <ion-row id="tictactoe-line-2">\n        <ion-col>\n            <span *ngIf= "items[3].value && items[3].value === \'X\'" class="x">{{ items[3].value }}</span>\n            <span *ngIf= "items[3].value && items[3].value === \'O\'" class="o">{{ items[3].value }}</span>\n          <button id="3" class="play-btn" (click)="playSquare($event)"></button>\n        </ion-col>\n        \n        <ion-col class="middle-col">\n            <span *ngIf= "items[4].value && items[4].value === \'X\'" class="x">{{ items[4].value }}</span>\n            <span *ngIf= "items[4].value && items[4].value === \'O\'" class="o">{{ items[4].value }}</span>\n          <button id="4" class="play-btn" (click)="playSquare($event)"></button>\n        </ion-col>\n        \n        <ion-col>\n            <span *ngIf= "items[5].value && items[5].value === \'X\'" class="x">{{ items[5].value }}</span>\n            <span *ngIf= "items[5].value && items[5].value === \'O\'" class="o">{{ items[5].value }}</span>\n          <button id="5" class="play-btn" (click)="playSquare($event)"></button>\n        </ion-col>\n      </ion-row>\n      \n      \n      <ion-row id="tictactoe-line-3">\n        <ion-col>\n            <span *ngIf= "items[6].value && items[6].value === \'X\'" class="x">{{ items[6].value }}</span>\n            <span *ngIf= "items[6].value && items[6].value === \'O\'" class="o">{{ items[6].value }}</span>\n          <button id="6" class="play-btn" (click)="playSquare($event)"></button>\n        </ion-col>\n        \n        <ion-col class="middle-col">\n            <span *ngIf= "items[7].value && items[7].value === \'X\'" class="x">{{ items[7].value }}</span>\n            <span *ngIf= "items[7].value && items[7].value === \'O\'" class="o">{{ items[7].value }}</span>\n          <button id="7" class="play-btn" (click)="playSquare($event)"></button>\n        </ion-col>\n        \n        <ion-col>\n            <span *ngIf= "items[8].value && items[8].value === \'X\'" class="x">{{ items[8].value }}</span>\n            <span *ngIf= "items[8].value && items[8].value === \'O\'" class="o">{{ items[8].value }}</span>\n          <button id="8" class="play-btn" (click)="playSquare($event)"></button>\n        </ion-col>\n      </ion-row>\n    </div>\n\n    <button id="btn-invitations" ion-button block (click)="checkForInvitationsRecieved()">Invitations reçues</button>\n    <button id="btn-search" ion-button block (click)="searchTictactoePlayers()">Trouver un adversaire</button>\n    <div *ngFor="let invitation of invitationsRecieved"></div>\n  </ion-content>'/*ion-inline-end:"/Users/valentinelarit/Desktop/IESA/Ionic-Appli/IESA-Ionic3-MySmallGames/IESA--Ionic3/src/pages/tictactoe/tictactoe.html"*/
+            selector: 'page-tictactoe',template:/*ion-inline-start:"/Users/valentinelarit/Desktop/IESA/Ionic-Appli/IESA-Ionic3-MySmallGames/IESA--Ionic3/src/pages/tictactoe/tictactoe.html"*/'<ion-header>\n    <ion-navbar>\n      <ion-title text-center>Tic Tac Toe {{ user.alias }}</ion-title>\n\n      <ion-buttons end>\n        <button ion-button icon-only (click)="presentActionSheet()">\n          <ion-icon name="menu"></ion-icon>\n        </button>\n      </ion-buttons>\n    </ion-navbar>\n  </ion-header>\n  \n  <ion-content padding id="home-content">\n    <ion-grid class="score_buttons-grid">\n      <ion-row>\n        <ion-col class="score-col">\n          Score :\n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col class="score_button-col">\n          <div class="score_button">Vous: {{ player.score }}</div>\n        </ion-col>\n        <ion-col class="score_button-col">\n          <div class="score_button">Adversaire: {{ cpu.score }}</div>\n        </ion-col>\n      </ion-row>\n    </ion-grid>\n    \n    <div class="tictactoe-grid">\n      \n      <ion-row id="tictactoe-line-1">\n        <ion-col>\n          <span *ngIf= "items[0].value && items[0].value === \'X\'" class="x">{{ items[0].value }}</span>\n          <span *ngIf= "items[0].value && items[0].value === \'O\'" class="o">{{ items[0].value }}</span>\n          <button id="0" class="play-btn" (click)="playSquare($event)"></button>\n        </ion-col>\n        \n        <ion-col class="middle-col">\n            <span *ngIf= "items[1].value && items[1].value === \'X\'" class="x">{{ items[1].value }}</span>\n            <span *ngIf= "items[1].value && items[1].value === \'O\'" class="o">{{ items[1].value }}</span>\n          <button id="1" class="play-btn" (click)="playSquare($event)"></button>\n        </ion-col>\n        \n        <ion-col>\n            <span *ngIf= "items[2].value && items[2].value === \'X\'" class="x">{{ items[2].value }}</span>\n            <span *ngIf= "items[2].value && items[2].value === \'O\'" class="o">{{ items[2].value }}</span>\n          <button id="2" class="play-btn" (click)="playSquare($event)"></button>\n        </ion-col>\n      </ion-row>\n      \n      \n      <ion-row id="tictactoe-line-2">\n        <ion-col>\n            <span *ngIf= "items[3].value && items[3].value === \'X\'" class="x">{{ items[3].value }}</span>\n            <span *ngIf= "items[3].value && items[3].value === \'O\'" class="o">{{ items[3].value }}</span>\n          <button id="3" class="play-btn" (click)="playSquare($event)"></button>\n        </ion-col>\n        \n        <ion-col class="middle-col">\n            <span *ngIf= "items[4].value && items[4].value === \'X\'" class="x">{{ items[4].value }}</span>\n            <span *ngIf= "items[4].value && items[4].value === \'O\'" class="o">{{ items[4].value }}</span>\n          <button id="4" class="play-btn" (click)="playSquare($event)"></button>\n        </ion-col>\n        \n        <ion-col>\n            <span *ngIf= "items[5].value && items[5].value === \'X\'" class="x">{{ items[5].value }}</span>\n            <span *ngIf= "items[5].value && items[5].value === \'O\'" class="o">{{ items[5].value }}</span>\n          <button id="5" class="play-btn" (click)="playSquare($event)"></button>\n        </ion-col>\n      </ion-row>\n      \n      \n      <ion-row id="tictactoe-line-3">\n        <ion-col>\n            <span *ngIf= "items[6].value && items[6].value === \'X\'" class="x">{{ items[6].value }}</span>\n            <span *ngIf= "items[6].value && items[6].value === \'O\'" class="o">{{ items[6].value }}</span>\n          <button id="6" class="play-btn" (click)="playSquare($event)"></button>\n        </ion-col>\n        \n        <ion-col class="middle-col">\n            <span *ngIf= "items[7].value && items[7].value === \'X\'" class="x">{{ items[7].value }}</span>\n            <span *ngIf= "items[7].value && items[7].value === \'O\'" class="o">{{ items[7].value }}</span>\n          <button id="7" class="play-btn" (click)="playSquare($event)"></button>\n        </ion-col>\n        \n        <ion-col>\n            <span *ngIf= "items[8].value && items[8].value === \'X\'" class="x">{{ items[8].value }}</span>\n            <span *ngIf= "items[8].value && items[8].value === \'O\'" class="o">{{ items[8].value }}</span>\n          <button id="8" class="play-btn" (click)="playSquare($event)"></button>\n        </ion-col>\n      </ion-row>\n    </div>\n    <button *ngIf="currentGame" (click)="cancelGame()">Annuler</button>\n  </ion-content>'/*ion-inline-end:"/Users/valentinelarit/Desktop/IESA/Ionic-Appli/IESA-Ionic3-MySmallGames/IESA--Ionic3/src/pages/tictactoe/tictactoe.html"*/
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__providers_alert_provider__["a" /* AlertProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_alert_provider__["a" /* AlertProvider */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4__providers_user__["a" /* User */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__providers_user__["a" /* User */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_5__models_models__["a" /* Models */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__models_models__["a" /* Models */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_2_angularfire2_database__["a" /* AngularFireDatabase */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_angularfire2_database__["a" /* AngularFireDatabase */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* ModalController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* ModalController */]) === "function" && _g || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__providers_alert_provider__["a" /* AlertProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_alert_provider__["a" /* AlertProvider */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4__providers_user__["a" /* User */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__providers_user__["a" /* User */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_5__models_models__["a" /* Models */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__models_models__["a" /* Models */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_2_angularfire2_database__["a" /* AngularFireDatabase */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_angularfire2_database__["a" /* AngularFireDatabase */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* ModalController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* ModalController */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* ActionSheetController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* ActionSheetController */]) === "function" && _h || Object])
     ], TictactoePage);
     return TictactoePage;
-    var _a, _b, _c, _d, _e, _f, _g;
+    var _a, _b, _c, _d, _e, _f, _g, _h;
 }());
 
 //# sourceMappingURL=tictactoe.js.map
@@ -975,11 +1074,11 @@ var map = {
 		0
 	],
 	"../pages/invitations/invitations.module": [
-		697,
+		696,
 		5
 	],
 	"../pages/memory-create/memory-create.module": [
-		696,
+		697,
 		4
 	],
 	"../pages/memory/memory.module": [
@@ -1011,16 +1110,16 @@ module.exports = webpackAsyncContext;
 
 /***/ }),
 
-/***/ 284:
+/***/ 334:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CameraProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ionic_native_camera__ = __webpack_require__(285);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery__ = __webpack_require__(451);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ionic_native_camera__ = __webpack_require__(335);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery__ = __webpack_require__(520);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_models__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_models__ = __webpack_require__(72);
 /*
 import { Platform } from 'ionic-angular';
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -1174,7 +1273,7 @@ var TabsPage = (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(38);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_login_provider__ = __webpack_require__(403);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_user__ = __webpack_require__(74);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_storage__ = __webpack_require__(208);
@@ -1210,7 +1309,7 @@ var HomePage = (function () {
         var _this = this;
         this.storage.get('user').then(function (user) {
             if (user) {
-                _this.user.init(user.id, user.alias, user.email);
+                _this.user.init(user.id, user.alias, user.email, user.ttt_canInvite, user.ttt_invitationsRecieved);
             }
         });
     };
@@ -1238,7 +1337,7 @@ var HomePage = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ionic_storage__ = __webpack_require__(208);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angularfire2_auth__ = __webpack_require__(404);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__ = __webpack_require__(85);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__alert_provider__ = __webpack_require__(92);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__user__ = __webpack_require__(74);
 /*import { HttpClient } from '@angular/common/http';
@@ -1436,10 +1535,13 @@ var LoginProvider = (function () {
     };
     LoginProvider = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2_angularfire2_auth__["a" /* AngularFireAuth */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_angularfire2_auth__["a" /* AngularFireAuth */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__["a" /* AngularFireDatabase */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__["a" /* AngularFireDatabase */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__alert_provider__["a" /* AlertProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__alert_provider__["a" /* AlertProvider */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_5__user__["a" /* User */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__user__["a" /* User */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1__ionic_storage__["b" /* Storage */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__ionic_storage__["b" /* Storage */]) === "function" && _e || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_angularfire2_auth__["a" /* AngularFireAuth */],
+            __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__["a" /* AngularFireDatabase */],
+            __WEBPACK_IMPORTED_MODULE_4__alert_provider__["a" /* AlertProvider */],
+            __WEBPACK_IMPORTED_MODULE_5__user__["a" /* User */],
+            __WEBPACK_IMPORTED_MODULE_1__ionic_storage__["b" /* Storage */]])
     ], LoginProvider);
     return LoginProvider;
-    var _a, _b, _c, _d, _e;
 }());
 
 //# sourceMappingURL=login.provider.js.map
@@ -1467,31 +1569,31 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__ = __webpack_require__(61);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(38);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__app_component__ = __webpack_require__(645);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(653);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_storage__ = __webpack_require__(208);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_angularfire2__ = __webpack_require__(41);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_angularfire2_database__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_angularfire2_database__ = __webpack_require__(85);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_angularfire2_firestore__ = __webpack_require__(654);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_angularfire2_auth__ = __webpack_require__(404);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_angularfire2_storage__ = __webpack_require__(287);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_angularfire2_storage__ = __webpack_require__(337);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ionic_native_status_bar__ = __webpack_require__(399);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ionic_native_splash_screen__ = __webpack_require__(400);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__ionic_native_camera__ = __webpack_require__(285);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__ionic_native_camera__ = __webpack_require__(335);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_tabs_tabs__ = __webpack_require__(401);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_home_home__ = __webpack_require__(402);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_tictactoe_tictactoe__ = __webpack_require__(227);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_invitations_invitations__ = __webpack_require__(224);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_invitations_invitations__ = __webpack_require__(223);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_search_tictactoe_players_search_tictactoe_players__ = __webpack_require__(226);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_memory_memory__ = __webpack_require__(225);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__pages_memory_create_memory_create__ = __webpack_require__(223);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__pages_memory_create_memory_create__ = __webpack_require__(224);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__providers_user__ = __webpack_require__(74);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__providers_globals__ = __webpack_require__(359);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__providers_alert_provider__ = __webpack_require__(92);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__providers_login_provider__ = __webpack_require__(403);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__providers_camera_provider__ = __webpack_require__(284);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__models_models__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__providers_camera_provider__ = __webpack_require__(334);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__models_models__ = __webpack_require__(72);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__providers_memory_provider__ = __webpack_require__(186);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1550,8 +1652,8 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["f" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_3__app_component__["a" /* MyApp */], {}, {
                     links: [
                         { loadChildren: '../pages/hangman/hangman.module#HangmanPageModule', name: 'HangmanPage', segment: 'hangman', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/memory-create/memory-create.module#MemoryCreatePageModule', name: 'MemoryCreatePage', segment: 'memory-create', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/invitations/invitations.module#InvitationsPageModule', name: 'InvitationsPage', segment: 'invitations', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/memory-create/memory-create.module#MemoryCreatePageModule', name: 'MemoryCreatePage', segment: 'memory-create', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/memory/memory.module#MemoryPageModule', name: 'MemoryPage', segment: 'memory', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/search-tictactoe-players/search-tictactoe-players.module#SearchTictactoePlayersPageModule', name: 'SearchTictactoePlayersPage', segment: 'search-tictactoe-players', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/tictactoe/tictactoe.module#TictactoePageModule', name: 'TictactoePage', segment: 'tictactoe', priority: 'low', defaultHistory: [] }
@@ -1603,7 +1705,7 @@ var AppModule = (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(38);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(399);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(400);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_tabs_tabs__ = __webpack_require__(401);
@@ -1643,15 +1745,15 @@ var MyApp = (function () {
 
 /***/ }),
 
-/***/ 71:
+/***/ 72:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Models; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angularfire2_storage__ = __webpack_require__(287);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angularfire2_storage__ = __webpack_require__(337);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__ = __webpack_require__(85);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1755,10 +1857,11 @@ var Models = (function () {
     };
     Models = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2_angularfire2_storage__["a" /* AngularFireStorage */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_angularfire2_storage__["a" /* AngularFireStorage */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__["a" /* AngularFireDatabase */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__["a" /* AngularFireDatabase */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */]) === "function" && _c || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_angularfire2_storage__["a" /* AngularFireStorage */],
+            __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__["a" /* AngularFireDatabase */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* LoadingController */]])
     ], Models);
     return Models;
-    var _a, _b, _c;
 }());
 
 //# sourceMappingURL=models.js.map
@@ -1783,13 +1886,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var User = (function () {
     function User() {
-        this.ttt_invitationsRecieved = [];
     }
-    User.prototype.init = function (id, alias, email, ttt_canInvite, ttt_invitationsRecieved) {
+    User.prototype.init = function (id, alias, email, ttt_invitationSent, ttt_invitationsRecieved) {
         this.id = id;
         this.alias = alias;
         this.email = email;
-        this.ttt_canInvite = ttt_canInvite;
+        this.ttt_invitationSent = ttt_invitationSent;
         this.ttt_invitationsRecieved = ttt_invitationsRecieved;
     };
     User = __decorate([
@@ -1809,7 +1911,7 @@ var User = (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AlertProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(38);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
